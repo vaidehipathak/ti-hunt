@@ -1,5 +1,24 @@
-﻿venv/
+# Virtual Environments
+venv/
+.venv/
+ENV/
+
+# Python caching
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Node / Frontend dependencies & build files
+node_modules/
+dist/
+.env.local
+
+# Local Environment Credentials (crucial to ignore!)
 .env
-.streamlit/
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
