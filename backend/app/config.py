@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379/0"
     siem_trust_threshold: float = 0.60
     cors_origins: str = "http://localhost:5173"
+    urlhaus_auth_key: str = ""
 
     class Config:
         env_file = ".env"
