@@ -17,7 +17,9 @@ def list_alerts(db: Session = Depends(get_db)):
 def inject_alert(payload: AlertIn, db: Session = Depends(get_db)):
     source = get_or_create_source(db, payload.source_name)
 
-    forwarded = source.trust_score >= settings.siem_trust_threshold
+    
+    n_sources = db.query(Source).count()
+    forwarded = source.trust_score >= settings.siem_trust_threshold * 2 / n_sources
 
     alert = Alert(
         source_id=source.id,

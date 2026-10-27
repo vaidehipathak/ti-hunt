@@ -23,7 +23,7 @@ def recompute_trust_score(db: Session, source: Source):
     total_weight = sum(s.weight for s in all_sources)
     prob = bandit.get_probability(source.weight, total_weight, len(all_sources))
     source.trust_score = prob
-    source.is_throttled = prob < settings.siem_trust_threshold
+    source.is_throttled = prob < (settings.siem_trust_threshold * 2 / len(all_sources))
     db.commit()
 
 
@@ -36,7 +36,10 @@ def apply_feedback(db: Session, source: Source, reward: float):
         source.weight, prob, reward, len(all_sources)
     )
     db.commit()
-    recompute_trust_score(db, source)
+
+    # recompute every source: one source's weight change shifts all probabilities
+    for s in db.query(Source).all():
+        recompute_trust_score(db, s)
 
     # feed the new trust score into the watchdog for anomaly detection
     is_anomalous = watchdog.update(source.name, source.trust_score)

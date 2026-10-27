@@ -19,7 +19,9 @@ import os
 import time
 import requests
 
-URLHAUS_AUTH_KEY = os.environ.get("URLHAUS_AUTH_KEY", "PUT_YOUR_KEY_HERE")
+from dotenv import load_dotenv
+load_dotenv()
+URLHAUS_AUTH_KEY = os.environ.get("URLHAUS_AUTH_KEY")
 URLHAUS_ENDPOINT = "https://urlhaus-api.abuse.ch/v1/urls/recent/limit/20/"
 BACKEND_ALERTS_ENDPOINT = "http://localhost:8000/api/v1/alerts"
 SOURCE_NAME = "URLhaus"
